@@ -1,0 +1,288 @@
+.App {
+  min-height: 100vh;
+  background-color: var(--bg);
+}
+
+.app-header {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 0;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.app-header-content {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.app-header h1 {
+  font-size: 42px;
+  color: var(--olive);
+  margin: 0;
+  font-weight: 600;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  margin-bottom: 32px;
+  border: 1px solid var(--border);
+}
+
+h1 {
+  font-size: 56px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: var(--olive);
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 44px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--olive);
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--olive);
+  line-height: 1.4;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: var(--text);
+  font-size: 26px;
+}
+
+textarea,
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="datetime-local"] {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 24px;
+  font-family: 'Caveat', cursive;
+  background: var(--card);
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+  border-color: var(--olive);
+  box-shadow: 0 0 0 3px rgba(85, 107, 47, 0.1);
+}
+
+textarea {
+  min-height: 120px;
+  resize: none;
+  overflow: hidden;
+}
+
+button {
+  background-color: var(--olive);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-size: 24px;
+  font-weight: 500;
+  font-family: 'Caveat', cursive;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+button:hover {
+  background-color: #4a5a2a;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  background-color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--olive);
+  border: 2px solid var(--olive);
+}
+
+.btn-secondary:hover {
+  background-color: var(--highlight);
+  border-color: var(--olive);
+}
+
+.btn-danger {
+  background-color: #ef4444;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+
+.question-item {
+  background: var(--highlight);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+
+.bullet-point {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.bullet-point input {
+  flex: 1;
+}
+
+.remove-btn {
+  background: transparent;
+  color: var(--muted);
+  padding: 4px 8px;
+  font-size: 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  min-width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.remove-btn:hover {
+  background: rgba(107, 114, 128, 0.1);
+  color: var(--text);
+}
+
+.add-btn {
+  background: transparent;
+  color: var(--olive);
+  border: 2px solid var(--olive);
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 22px;
+}
+
+.add-btn:hover {
+  background: var(--highlight);
+}
+
+.link-display {
+  background: var(--highlight);
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 24px;
+  word-break: break-all;
+  border: 1px solid var(--border);
+}
+
+.copy-btn {
+  margin-top: 16px;
+  background-color: var(--olive);
+}
+
+.copy-btn:hover {
+  background-color: #4a5a2a;
+}
+
+.answer-section {
+  margin-bottom: 32px;
+}
+
+.answer-section h3 {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--olive);
+}
+
+.care-report-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--border);
+}
+
+.reminder-section {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.reminder-item {
+  background: #f9fafb;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reminder-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.success-message {
+  background: var(--highlight);
+  color: var(--olive);
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px solid var(--olive-soft);
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+}
+
+.error-message {
+  background: rgba(185, 28, 28, 0.1);
+  color: var(--danger);
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px solid var(--danger);
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+}
+

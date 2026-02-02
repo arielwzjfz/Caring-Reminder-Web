@@ -1,0 +1,40 @@
+.intro-text {
+  margin-bottom: 40px;
+  padding: 28px;
+  background: var(--highlight);
+  border-radius: 16px;
+  line-height: 1.8;
+  white-space: pre-line;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 26px;
+  font-family: 'Caveat', cursive;
+}
+
+.intro-text p {
+  margin-bottom: 8px;
+}
+
+.intro-text p:last-child {
+  margin-bottom: 0;
+}
+
+.bullet-number {
+  font-weight: 500;
+  min-width: 120px;
+  color: var(--olive);
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+}
+
+.bullet-point {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.bullet-point input {
+  flex: 1;
+}
+

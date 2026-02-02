@@ -1,0 +1,119 @@
+.response-selector {
+  margin-bottom: 24px;
+}
+
+.response-selector label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.response-selector select {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 24px;
+  background: var(--card);
+  color: var(--text);
+  font-family: 'Caveat', cursive;
+}
+
+.response-selector select:focus {
+  outline: none;
+  border-color: var(--olive);
+  box-shadow: 0 0 0 3px rgba(85, 107, 47, 0.1);
+}
+
+.answer-list {
+  list-style: none;
+  padding: 0;
+}
+
+.answer-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: var(--highlight);
+  border-radius: 12px;
+  gap: 16px;
+  border: 1px solid var(--border);
+}
+
+.answer-item span {
+  flex: 1;
+}
+
+.reminder-btn-small {
+  background: transparent;
+  color: var(--olive);
+  border: 2px solid var(--olive);
+  padding: 10px 20px;
+  font-size: 22px;
+  white-space: nowrap;
+  font-family: 'Caveat', cursive;
+  border-radius: 10px;
+}
+
+.reminder-btn-small:hover {
+  background: var(--highlight);
+}
+
+.reminder-btn {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: rgba(31, 41, 55, 0.4) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 99999 !important;
+  backdrop-filter: blur(2px);
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.modal-content {
+  background: var(--card);
+  padding: 40px;
+  border-radius: 24px;
+  max-width: 520px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.modal-content h2 {
+  margin-bottom: 28px;
+  color: var(--olive);
+  font-size: 44px;
+}
+
+.modal-content small {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 22px;
+  font-family: 'Caveat', cursive;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.modal-actions button {
+  flex: 1;
+}
+

@@ -1,0 +1,16 @@
+.question-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.question-item input {
+  flex: 1;
+  font-family: 'Caveat', cursive;
+}
+
+.question-item .remove-btn {
+  flex-shrink: 0;
+}
+
