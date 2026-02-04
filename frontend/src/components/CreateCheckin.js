@@ -66,7 +66,9 @@ function CreateCheckin() {
       }
 
       const result = await createCheckin(intro, filteredQuestions, null, recipientName, senderName, senderPhone);
-      const fullLink = `${window.location.origin}${result.link}`;
+      // Use production URL from env, fallback to current origin for local dev
+      const baseUrl = process.env.REACT_APP_FRONTEND_URL || window.location.origin;
+      const fullLink = `${baseUrl}${result.link}`;
       setCheckinLink(fullLink);
       setCheckinId(result.id);
     } catch (err) {
