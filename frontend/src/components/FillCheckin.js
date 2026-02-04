@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getCheckin, submitResponse } from '../api';
 import './FillCheckin.css';
 
 function FillCheckin() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [checkin, setCheckin] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
