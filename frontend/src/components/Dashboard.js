@@ -159,7 +159,7 @@ function Dashboard() {
       <div className="card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
           <h1 style={{ margin: 0 }}>My Check-ins 🍵</h1>
-          <Link to="/" style={{ textDecoration: 'none' }}>
+          <Link to="/create" style={{ textDecoration: 'none' }}>
             <button style={{ fontSize: '22px' }}>✨ Create New Check-in</button>
           </Link>
         </div>
