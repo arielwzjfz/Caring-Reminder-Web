@@ -17,10 +17,10 @@ function AppContent() {
     <div className="App">
       <div className="app-header">
         <div className="app-header-content">
-          <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link to={user ? "/dashboard" : "/login"} style={{ textDecoration: 'none', color: 'inherit' }}>
             <h1>Care Note 💚</h1>
           </Link>
-          {user && (
+          {user ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <span style={{ color: 'var(--text)', fontSize: '20px' }}>{user.name || user.email}</span>
               <button
@@ -31,6 +31,15 @@ function AppContent() {
                 Logout
               </button>
             </div>
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <Link to="/login" style={{ color: 'var(--text)', textDecoration: 'none', fontSize: '18px' }}>
+                Login
+              </Link>
+              <Link to="/signup" style={{ color: 'var(--olive)', textDecoration: 'none', fontSize: '18px', fontWeight: 'bold' }}>
+                Sign Up
+              </Link>
+            </div>
           )}
         </div>
       </div>
@@ -40,11 +49,7 @@ function AppContent() {
         <Route path="/checkin/:id" element={<FillCheckin />} />
         <Route
           path="/"
-          element={
-            <ProtectedRoute>
-              <CreateCheckin />
-            </ProtectedRoute>
-          }
+          element={<Navigate to="/dashboard" replace />}
         />
         <Route
           path="/dashboard"
@@ -62,7 +67,7 @@ function AppContent() {
             </ProtectedRoute>
           }
         />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </div>
   );
