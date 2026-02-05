@@ -16,8 +16,11 @@ const PORT = process.env.PORT || 3001;
 // Reminder service removed - using Google Calendar URLs instead
 
 // CORS configuration - allow all origins in production (or specify your frontend URL)
+const allowedOrigins = process.env.FRONTEND_URL 
+  ? [process.env.FRONTEND_URL, process.env.FRONTEND_URL.replace(/\/$/, '')] // Allow with and without trailing slash
+  : '*';
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());
