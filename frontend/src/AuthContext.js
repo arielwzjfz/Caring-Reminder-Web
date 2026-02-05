@@ -24,7 +24,8 @@ export const AuthProvider = ({ children }) => {
           const data = await getCurrentUser();
           setUser(data.user);
         } catch (error) {
-          // Token invalid, remove it
+          // Token invalid or API error, remove it
+          console.error('Auth check failed:', error);
           removeToken();
           setUser(null);
         }
@@ -32,7 +33,17 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     };
 
-    checkAuth();
+    // Add timeout to prevent hanging
+    const timeout = setTimeout(() => {
+      if (loading) {
+        console.warn('Auth check timed out');
+        setLoading(false);
+      }
+    }, 5000);
+
+    checkAuth().finally(() => {
+      clearTimeout(timeout);
+    });
   }, []);
 
   const login = (userData, token) => {
