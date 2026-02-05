@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './AuthContext';
-import CreateCheckin from './components/CreateCheckin';
 import FillCheckin from './components/FillCheckin';
 import CareReport from './components/CareReport';
 import Dashboard from './components/Dashboard';

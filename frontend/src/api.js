@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getAuthHeaders, getToken } from './auth';
+import { getToken } from './auth';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
 
