@@ -48,7 +48,11 @@ function CareReport() {
           fetchRemindersForResponse(data[0].id);
         }
       } catch (err) {
-        setError('Failed to load data');
+        if (err.response?.status === 403) {
+          setError('Access denied. This check-in belongs to another user.');
+        } else {
+          setError('Failed to load data');
+        }
         console.error(err);
       } finally {
         setLoading(false);
