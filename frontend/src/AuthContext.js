@@ -17,33 +17,45 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+    
     const checkAuth = async () => {
       const token = getToken();
       if (token) {
         try {
           const data = await getCurrentUser();
-          setUser(data.user);
+          if (isMounted) {
+            setUser(data.user);
+          }
         } catch (error) {
           // Token invalid or API error, remove it
           console.error('Auth check failed:', error);
-          removeToken();
-          setUser(null);
+          if (isMounted) {
+            removeToken();
+            setUser(null);
+          }
         }
       }
-      setLoading(false);
-    };
-
-    // Add timeout to prevent hanging
-    const timeout = setTimeout(() => {
-      if (loading) {
-        console.warn('Auth check timed out');
+      if (isMounted) {
         setLoading(false);
       }
-    }, 5000);
+    };
+
+    // Set a timeout to prevent infinite loading
+    const timeout = setTimeout(() => {
+      if (isMounted) {
+        console.warn('Auth check timed out, assuming not logged in');
+        setLoading(false);
+      }
+    }, 3000);
 
     checkAuth().finally(() => {
       clearTimeout(timeout);
     });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const login = (userData, token) => {
