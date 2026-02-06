@@ -14,3 +14,45 @@
   flex-shrink: 0;
 }
 
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .question-item {
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .question-item input {
+    font-size: 20px;
+    padding: 16px;
+    min-height: 48px;
+  }
+
+  .question-item .remove-btn {
+    align-self: flex-end;
+    min-width: 44px;
+    height: 44px;
+    font-size: 28px;
+  }
+
+  /* Checkbox labels on mobile */
+  label[style*="display: flex"] {
+    padding: 12px 0;
+    min-height: 52px;
+  }
+
+  label[style*="display: flex"] span {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  label[style*="display: flex"] input[type="checkbox"] {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    margin-top: 0;
+  }
+}
+

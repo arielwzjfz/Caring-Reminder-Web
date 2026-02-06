@@ -117,3 +117,70 @@
   flex: 1;
 }
 
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .response-selector {
+    margin-bottom: 20px;
+  }
+
+  .response-selector select {
+    padding: 18px 16px;
+    font-size: 20px;
+    border-radius: 10px;
+    min-height: 48px;
+  }
+
+  .answer-item {
+    padding: 14px;
+    margin-bottom: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .answer-item span {
+    font-size: 20px;
+    width: 100%;
+  }
+
+  .reminder-btn-small {
+    padding: 14px 20px;
+    font-size: 20px;
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .reminder-btn {
+    margin-top: 12px;
+    min-height: 52px;
+  }
+
+  .modal-content {
+    padding: 24px 20px;
+    border-radius: 16px;
+    width: 95%;
+    max-height: 85vh;
+  }
+
+  .modal-content h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  .modal-content small {
+    font-size: 18px;
+    margin-top: 8px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .modal-actions button {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+

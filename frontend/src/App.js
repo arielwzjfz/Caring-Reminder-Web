@@ -21,22 +21,21 @@ function AppContent() {
             <h1>Care Note 💚</h1>
           </Link>
           {user ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <span style={{ color: 'var(--text)', fontSize: '20px' }}>{user.name || user.email}</span>
+            <div className="app-header-user">
+              <span className="app-header-username">{user.name || user.email}</span>
               <button
                 onClick={logout}
-                className="btn-secondary"
-                style={{ fontSize: '18px', padding: '8px 16px' }}
+                className="btn-secondary app-header-logout"
               >
                 Logout
               </button>
             </div>
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <Link to="/login" style={{ color: 'var(--text)', textDecoration: 'none', fontSize: '18px' }}>
+            <div className="app-header-auth">
+              <Link to="/login" className="app-header-link">
                 Login
               </Link>
-              <Link to="/signup" style={{ color: 'var(--olive)', textDecoration: 'none', fontSize: '18px', fontWeight: 'bold' }}>
+              <Link to="/signup" className="app-header-link app-header-link-primary">
                 Sign Up
               </Link>
             </div>

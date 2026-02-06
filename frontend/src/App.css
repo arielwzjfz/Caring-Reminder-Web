@@ -15,6 +15,37 @@
   max-width: 700px;
   margin: 0 auto;
   padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-header-user,
+.app-header-auth {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.app-header-username {
+  color: var(--text);
+  font-size: 20px;
+}
+
+.app-header-logout {
+  font-size: 18px;
+  padding: 8px 16px;
+}
+
+.app-header-link {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.app-header-link-primary {
+  color: var(--olive);
+  font-weight: bold;
 }
 
 .app-header h1 {
@@ -284,5 +315,216 @@ button:disabled {
   border: 1px solid var(--danger);
   font-family: 'Caveat', cursive;
   font-size: 24px;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 16px 0;
+    margin-bottom: 20px;
+  }
+
+  .app-header-content {
+    padding: 0 16px;
+  }
+
+  .app-header h1 {
+    font-size: 32px;
+  }
+
+  .container {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 24px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  label {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+
+  textarea,
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="datetime-local"],
+  input[type="password"],
+  select {
+    padding: 18px 16px;
+    font-size: 20px;
+    border-radius: 10px;
+    min-height: 48px; /* Better touch target */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  input[type="checkbox"] {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    margin-right: 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  label {
+    padding: 8px 0;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  label span {
+    font-size: 20px;
+    line-height: 1.4;
+  }
+
+  button {
+    padding: 18px 28px;
+    font-size: 22px;
+    border-radius: 10px;
+    min-height: 52px; /* Better touch target */
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .btn-secondary {
+    padding: 16px 24px;
+    font-size: 20px;
+    min-height: 48px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .question-item {
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+
+  .bullet-point {
+    margin-bottom: 16px;
+    gap: 12px;
+  }
+
+  .remove-btn {
+    padding: 8px 12px;
+    font-size: 28px;
+    min-width: 44px;
+    height: 44px;
+  }
+
+  .add-btn {
+    padding: 14px 20px;
+    font-size: 20px;
+    min-height: 48px;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .link-display {
+    padding: 16px;
+    font-size: 18px;
+    margin-top: 20px;
+  }
+
+  .copy-btn {
+    margin-top: 12px;
+    width: 100%;
+  }
+
+  .answer-section {
+    margin-bottom: 28px;
+  }
+
+  .answer-section h3 {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .success-message,
+  .error-message {
+    padding: 14px 18px;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .reminder-item {
+    padding: 14px;
+    margin-bottom: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .reminder-controls {
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .reminder-controls button {
+    width: 100%;
+  }
+
+  /* Header adjustments for mobile */
+  .app-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .app-header-user,
+  .app-header-auth {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .app-header-username {
+    font-size: 18px;
+    word-break: break-word;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .app-header-logout {
+    font-size: 16px;
+    padding: 8px 14px;
+    min-height: 40px;
+  }
+
+  .app-header-link {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+
+  /* Care report header adjustments */
+  .care-report-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+  }
 }
 
