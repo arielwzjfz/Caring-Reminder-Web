@@ -11,7 +11,7 @@ require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = parseInt(process.env.PORT, 10) || 3001;
 
 // Reminder service removed - using Google Calendar URLs instead
 
