@@ -110,6 +110,11 @@ db.serialize(() => {
           console.log('Migration: recurrence_pattern column already exists or error:', err.message);
         }
       });
+      db.run(`ALTER TABLE reminders ADD COLUMN recipient_phone TEXT`, (err) => {
+        if (err && !err.message.includes('duplicate column name')) {
+          console.log('Migration: recipient_phone column already exists or error:', err.message);
+        }
+      });
     }
   });
 });
@@ -352,11 +357,11 @@ app.get('/api/response/:id', (req, res) => {
 
 // Create reminder (requires authentication and ownership verification)
 app.post('/api/reminder', authenticateToken, (req, res) => {
-  const { response_id, reminder_type, item_index, question_index, reminder_time, sender_phone, recipient_name, reminder_text, is_recurring, recurrence_pattern } = req.body;
+  const { response_id, reminder_type, item_index, question_index, reminder_time, sender_phone, recipient_name, reminder_text, is_recurring, recurrence_pattern, recipient_phone } = req.body;
   
   // Verify ownership: check if the response belongs to a check-in owned by the user
   db.get(
-    `SELECT c.user_id FROM responses r 
+    `SELECT c.user_id, r.answers, c.questions FROM responses r 
      JOIN checkins c ON r.checkin_id = c.id 
      WHERE r.id = ?`,
     [response_id],
@@ -373,19 +378,39 @@ app.post('/api/reminder', authenticateToken, (req, res) => {
 
       const id = uuidv4();
       
-      // Generate Google Calendar URL
+      // Generate SMS message based on reminder type
+      let smsMessage = '';
+      if (recipient_phone) {
+        if (reminder_type === 'item' && question_index !== null && item_index !== null) {
+          try {
+            const answers = JSON.parse(row.answers);
+            const item = answers[question_index]?.[item_index] || '';
+            if (item) {
+              smsMessage = `How is ${item}?`;
+            }
+          } catch (e) {
+            console.error('Error parsing answers for SMS:', e);
+          }
+        } else if (reminder_type === 'full') {
+          smsMessage = `How are you doing?`;
+        }
+      }
+      
+      // Generate Google Calendar URL with SMS link
       const startDate = new Date(reminder_time);
       const calendarUrl = generateGoogleCalendarUrl({
         title: reminder_text,
         startDate: startDate,
         description: `Reminder: ${reminder_text}`,
         isRecurring: is_recurring,
-        recurrencePattern: recurrence_pattern
+        recurrencePattern: recurrence_pattern,
+        recipientPhone: recipient_phone,
+        smsMessage: smsMessage
       });
       
       db.run(
-        'INSERT INTO reminders (id, response_id, reminder_type, item_index, question_index, reminder_time, sender_phone, recipient_name, reminder_text, is_recurring, recurrence_pattern) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [id, response_id, reminder_type, item_index || null, question_index || null, reminder_time, sender_phone, recipient_name, reminder_text, is_recurring ? 1 : 0, recurrence_pattern || null],
+        'INSERT INTO reminders (id, response_id, reminder_type, item_index, question_index, reminder_time, sender_phone, recipient_name, reminder_text, is_recurring, recurrence_pattern, recipient_phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [id, response_id, reminder_type, item_index || null, question_index || null, reminder_time, sender_phone, recipient_name, reminder_text, is_recurring ? 1 : 0, recurrence_pattern || null, recipient_phone || null],
         function(err) {
           if (err) {
             return res.status(500).json({ error: err.message });
@@ -425,7 +450,7 @@ app.get('/api/reminders/all', authenticateToken, (req, res) => {
 app.get('/api/reminder/:id/calendar', authenticateToken, (req, res) => {
   const { id } = req.params;
   db.get(
-    `SELECT r.* FROM reminders r
+    `SELECT r.*, resp.answers, c.questions FROM reminders r
      JOIN responses resp ON r.response_id = resp.id
      JOIN checkins c ON resp.checkin_id = c.id
      WHERE r.id = ? AND c.user_id = ?`,
@@ -438,13 +463,33 @@ app.get('/api/reminder/:id/calendar', authenticateToken, (req, res) => {
         return res.status(404).json({ error: 'Reminder not found or access denied' });
       }
       
+      // Generate SMS message based on reminder type
+      let smsMessage = '';
+      if (row.recipient_phone) {
+        if (row.reminder_type === 'item' && row.question_index !== null && row.item_index !== null) {
+          try {
+            const answers = JSON.parse(row.answers);
+            const item = answers[row.question_index]?.[row.item_index] || '';
+            if (item) {
+              smsMessage = `How is ${item}?`;
+            }
+          } catch (e) {
+            console.error('Error parsing answers for SMS:', e);
+          }
+        } else if (row.reminder_type === 'full') {
+          smsMessage = `How are you doing?`;
+        }
+      }
+      
       const startDate = new Date(row.reminder_time);
       const calendarUrl = generateGoogleCalendarUrl({
         title: row.reminder_text,
         startDate: startDate,
         description: `Reminder: ${row.reminder_text}`,
         isRecurring: row.is_recurring === 1 || row.is_recurring === true,
-        recurrencePattern: row.recurrence_pattern
+        recurrencePattern: row.recurrence_pattern,
+        recipientPhone: row.recipient_phone,
+        smsMessage: smsMessage
       });
       
       res.json({ calendar_url: calendarUrl });
@@ -494,9 +539,9 @@ app.put('/api/reminder/:id', authenticateToken, (req, res) => {
   const { id } = req.params;
   const { reminder_time, reminder_text, is_recurring, recurrence_pattern } = req.body;
   
-  // Verify ownership first
+  // Verify ownership first and get reminder data for SMS generation
   db.get(
-    `SELECT r.id FROM reminders r
+    `SELECT r.*, resp.answers, c.questions FROM reminders r
      JOIN responses resp ON r.response_id = resp.id
      JOIN checkins c ON resp.checkin_id = c.id
      WHERE r.id = ? AND c.user_id = ?`,
@@ -520,6 +565,24 @@ app.put('/api/reminder/:id', authenticateToken, (req, res) => {
             return res.status(404).json({ error: 'Reminder not found' });
           }
           
+          // Generate SMS message based on reminder type
+          let smsMessage = '';
+          if (row.recipient_phone) {
+            if (row.reminder_type === 'item' && row.question_index !== null && row.item_index !== null) {
+              try {
+                const answers = JSON.parse(row.answers);
+                const item = answers[row.question_index]?.[row.item_index] || '';
+                if (item) {
+                  smsMessage = `How is ${item}?`;
+                }
+              } catch (e) {
+                console.error('Error parsing answers for SMS:', e);
+              }
+            } else if (row.reminder_type === 'full') {
+              smsMessage = `How are you doing?`;
+            }
+          }
+          
           // Generate updated calendar URL
           const startDate = new Date(reminder_time);
           const calendarUrl = generateGoogleCalendarUrl({
@@ -527,7 +590,9 @@ app.put('/api/reminder/:id', authenticateToken, (req, res) => {
             startDate: startDate,
             description: `Reminder: ${reminder_text}`,
             isRecurring: is_recurring,
-            recurrencePattern: recurrence_pattern
+            recurrencePattern: recurrence_pattern,
+            recipientPhone: row.recipient_phone,
+            smsMessage: smsMessage
           });
           
           res.json({ success: true, calendar_url: calendarUrl });

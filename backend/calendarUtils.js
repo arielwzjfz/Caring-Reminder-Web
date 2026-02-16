@@ -1,5 +1,21 @@
 /**
+ * Generate SMS URL scheme for pre-filled message
+ * @param {string} phoneNumber - Recipient phone number (with country code, e.g., +1234567890)
+ * @param {string} message - Pre-filled message text
+ * @returns {string} SMS URL
+ */
+function generateSmsUrl(phoneNumber, message) {
+  if (!phoneNumber) return '';
+  // Remove any spaces or dashes from phone number
+  const cleanPhone = phoneNumber.replace(/[\s\-]/g, '');
+  // URL encode the message
+  const encodedMessage = encodeURIComponent(message);
+  return `sms:${cleanPhone}?body=${encodedMessage}`;
+}
+
+/**
  * Generate Google Calendar URL for creating an event
+ * Opens in app on mobile if available, otherwise web
  * @param {Object} options - Event options
  * @param {string} options.title - Event title
  * @param {Date} options.startDate - Start date/time
@@ -7,9 +23,11 @@
  * @param {string} options.description - Event description
  * @param {boolean} options.isRecurring - Whether event is recurring
  * @param {string} options.recurrencePattern - 'weekly', 'biweekly', or 'monthly'
+ * @param {string} options.recipientPhone - Recipient phone number for SMS link
+ * @param {string} options.smsMessage - Pre-filled SMS message
  * @returns {string} Google Calendar URL
  */
-function generateGoogleCalendarUrl({ title, startDate, endDate, description, isRecurring, recurrencePattern }) {
+function generateGoogleCalendarUrl({ title, startDate, endDate, description, isRecurring, recurrencePattern, recipientPhone, smsMessage }) {
   // Format dates as YYYYMMDDTHHMMSSZ (UTC)
   const formatDate = (date) => {
     const year = date.getUTCFullYear();
@@ -27,12 +45,21 @@ function generateGoogleCalendarUrl({ title, startDate, endDate, description, isR
   const startStr = formatDate(startDate);
   const endStr = formatDate(end);
 
-  // Build base URL
+  // Build description with SMS link if available
+  let fullDescription = description || '';
+  if (recipientPhone && smsMessage) {
+    const smsUrl = generateSmsUrl(recipientPhone, smsMessage);
+    if (smsUrl) {
+      fullDescription += (fullDescription ? '\n\n' : '') + `📱 Quick Message:\n${smsUrl}\n\nTap the link above to send: "${smsMessage}"`;
+    }
+  }
+
+  // Use /r/eventedit which opens app on mobile if available, falls back to web
   const params = new URLSearchParams({
     action: 'TEMPLATE',
     text: title,
     dates: `${startStr}/${endStr}`,
-    details: description || ''
+    details: fullDescription
   });
 
   // Add recurrence rule if recurring
@@ -54,8 +81,9 @@ function generateGoogleCalendarUrl({ title, startDate, endDate, description, isR
     params.append('recur', `RRULE:${rrule}`);
   }
 
-  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+  // Use /r/eventedit which opens the app on mobile devices
+  return `https://calendar.google.com/calendar/r/eventedit?${params.toString()}`;
 }
 
-module.exports = { generateGoogleCalendarUrl };
+module.exports = { generateGoogleCalendarUrl, generateSmsUrl };
 

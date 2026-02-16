@@ -14,6 +14,7 @@ function CareReport() {
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(null);
   const [reminderTime, setReminderTime] = useState('');
   const [checkinPhone, setCheckinPhone] = useState('');
+  const [recipientPhone, setRecipientPhone] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [reminders, setReminders] = useState([]);
@@ -92,6 +93,18 @@ function CareReport() {
     setQuickTimeSelected(null);
     setReminderTime('');
     setIsRecurring(false);
+    
+    // Auto-fill phone number from existing reminders for this recipient
+    if (selectedResponse && reminders.length > 0) {
+      const existingReminder = reminders.find(r => r.recipient_phone);
+      if (existingReminder && existingReminder.recipient_phone) {
+        setRecipientPhone(existingReminder.recipient_phone);
+      } else {
+        setRecipientPhone('');
+      }
+    } else {
+      setRecipientPhone('');
+    }
   };
 
   const handleQuickTimeSelect = (days) => {
@@ -142,6 +155,7 @@ function CareReport() {
         reminder_time: new Date(reminderTime).toISOString(),
         sender_phone: checkinPhone || '', // Keep for backward compatibility but not required
         recipient_name: selectedResponse.checkin_recipient_name || selectedResponse.recipient_name,
+        recipient_phone: recipientPhone || null,
         reminder_text: reminderText,
         is_recurring: isRecurring,
         recurrence_pattern: isRecurring ? recurrencePattern : null
@@ -381,6 +395,28 @@ function CareReport() {
                   }}
                   required
                 />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="recipient-phone">Recipient Phone Number</label>
+                <input
+                  id="recipient-phone"
+                  type="tel"
+                  value={recipientPhone}
+                  onChange={(e) => setRecipientPhone(e.target.value)}
+                  placeholder="+1234567890 (with country code)"
+                  style={{
+                    padding: '12px',
+                    borderRadius: '8px',
+                    border: '1.5px solid var(--border)',
+                    fontSize: '20px',
+                    fontFamily: "'Caveat', cursive",
+                    width: '100%'
+                  }}
+                />
+                <small style={{ color: 'var(--muted)', fontSize: '16px', marginTop: '4px', display: 'block' }}>
+                  This phone number will be saved for future reminders to this person
+                </small>
               </div>
 
               <div className="form-group">
